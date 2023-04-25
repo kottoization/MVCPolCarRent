@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Scaffold_Test_User.Areas.Identity.Data;
 var builder = WebApplication.CreateBuilder(args);
-var connectionString = builder.Configuration.GetConnectionString("AccountDbContextConnection") ?? throw new InvalidOperationException("Connection string 'AccountDbContextConnection' not found.");
+var connectionString = builder.Configuration.GetConnectionString("AccountDbContextConnection") ?? throw new InvalidOperationException("Nie znaleziono connection string 'AccountDbContextConnection'.");
 
 builder.Services.AddDbContext<AccountDbContext>(options =>
     options.UseSqlite(connectionString));
@@ -13,6 +13,8 @@ builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.R
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddRazorPages();
+builder.Services.AddDbContext<VehiclesDbContext>(options => options.UseSqlite(builder.Configuration.GetConnectionString("VehiclesDb")));
 
 var app = builder.Build();
 

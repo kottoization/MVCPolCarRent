@@ -185,7 +185,7 @@ namespace Scaffold_Test_User.Areas.Identity.Pages.Account
         {
             if (!_userManager.SupportsUserEmail)
             {
-                throw new NotSupportedException("The default UI requires a user store with email support.");
+                throw new NotSupportedException("Domyślny interfejs użytkownika wymaga sklepu użytkownika z obsługą poczty e-mail.");
             }
             return (IUserEmailStore<ApplicationUser>)_userStore;
         }
