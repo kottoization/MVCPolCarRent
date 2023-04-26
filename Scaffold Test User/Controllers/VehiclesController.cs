@@ -12,9 +12,9 @@ namespace Scaffold_Test_User.Controllers
 {
     public class VehiclesController : Controller
     {
-        private readonly VehiclesDbContext _context;
+        private readonly ApplicationDbContext _context;
 
-        public VehiclesController(VehiclesDbContext context)
+        public VehiclesController(ApplicationDbContext context)
         {
             _context = context;
         }
@@ -24,7 +24,7 @@ namespace Scaffold_Test_User.Controllers
         {
               return _context.Vehicles != null ? 
                           View(await _context.Vehicles.ToListAsync()) :
-                          Problem("Entity set 'VehiclesDbContext.Vehicles'  is null.");
+                          Problem("Entity set 'ApplicationDbContext.Vehicles'  is null.");
         }
 
         // GET: Vehicles/Details/5
@@ -143,7 +143,7 @@ namespace Scaffold_Test_User.Controllers
         {
             if (_context.Vehicles == null)
             {
-                return Problem("Entity set 'VehiclesDbContext.Vehicles'  is null.");
+                return Problem("Entity set 'ApplicationDbContext.Vehicles'  is null.");
             }
             var vehicle = await _context.Vehicles.FindAsync(id);
             if (vehicle != null)

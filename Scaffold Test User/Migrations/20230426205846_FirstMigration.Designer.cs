@@ -10,9 +10,9 @@ using Scaffold_Test_User.Areas.Identity.Data;
 
 namespace Scaffold_Test_User.Migrations
 {
-    [DbContext(typeof(AccountDbContext))]
-    [Migration("20230425121605_InitApplicationUser")]
-    partial class InitApplicationUser
+    [DbContext(typeof(ApplicationDbContext))]
+    [Migration("20230426205846_FirstMigration")]
+    partial class FirstMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -43,6 +43,15 @@ namespace Scaffold_Test_User.Migrations
                         .HasDatabaseName("RoleNameIndex");
 
                     b.ToTable("AspNetRoles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "81d6bf44-5655-4c90-bc85-2925f6bb7704",
+                            ConcurrencyStamp = "4c0cc104-7f6a-4e93-ad70-39529a519321",
+                            Name = "Administrator",
+                            NormalizedName = "ADMINISTRATOR"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -128,6 +137,13 @@ namespace Scaffold_Test_User.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("AspNetUserRoles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            UserId = "3441ccad-5f86-4661-ac3d-49a3228a1cf9",
+                            RoleId = "81d6bf44-5655-4c90-bc85-2925f6bb7704"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
@@ -223,6 +239,53 @@ namespace Scaffold_Test_User.Migrations
                         .HasDatabaseName("UserNameIndex");
 
                     b.ToTable("AspNetUsers", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "3441ccad-5f86-4661-ac3d-49a3228a1cf9",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "49f38663-9b42-4988-9eaf-15f9fd38656e",
+                            Email = "admin@example.com",
+                            EmailConfirmed = false,
+                            FirstName = "Admin",
+                            LastName = "Admin",
+                            LockoutEnabled = false,
+                            NormalizedEmail = "ADMIN@EXAMPLE.COM",
+                            NormalizedUserName = "ADMIN@EXAMPLE.COM",
+                            PasswordHash = "AQAAAAEAACcQAAAAEPgVDFFcX6t/ysxIwFA0NBVXqNDkv3mnQyQ6C0K9b98apFqK4Mam0ki9ITI120Vwww==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "774c400f-9b8b-4a02-8d7d-411cdb7bdf7d",
+                            TwoFactorEnabled = false,
+                            UserName = "admin@example.com"
+                        });
+                });
+
+            modelBuilder.Entity("Scaffold_Test_User.Models.Vehicle", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("ClientId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<double>("Price")
+                        .HasColumnType("REAL");
+
+                    b.Property<bool>("Taken")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Vehicles");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
