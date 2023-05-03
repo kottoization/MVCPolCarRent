@@ -8,7 +8,6 @@
 <h1>Szczegóły</h1>
 
 <div>
-    <h4>Pojazdy</h4>
     <hr />
     <dl class="row">
         <dt class = "col-sm-2">
@@ -43,7 +42,16 @@
         </dd>
     </dl>
 </div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model?.Id">Edytuj</a> |
-    <a asp-action="Index">Powróć do listy</a>
-</div>
+@if (User != null && User.Identity.IsAuthenticated && User.IsInRole("Administrator"))
+{
+    <div>
+        <a asp-action="Edit" asp-route-id="@Model?.Id">Edytuj</a> |
+        <a asp-action="Index">Powróć do listy</a>
+    </div>
+}
+else
+{
+    <div>
+        <a asp-action="Index">Powróć do listy</a>
+    </div>
+}
