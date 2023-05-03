@@ -8,6 +8,9 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Scaffold_Test_User.Areas.Identity.Data;
 using Scaffold_Test_User.Models;
+using Microsoft.AspNetCore.Identity;
+
+
 
 namespace Scaffold_Test_User.Controllers
 {
@@ -15,17 +18,36 @@ namespace Scaffold_Test_User.Controllers
     {
         private readonly ApplicationDbContext _context;
 
-        public VehiclesController(ApplicationDbContext context)
+
+        private readonly UserManager<ApplicationUser> _userManager;
+
+        public VehiclesController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
+
 
         // GET: Vehicles
         public async Task<IActionResult> Index()
         {
-              return _context.Vehicles != null ? 
+            var user = await _userManager.GetUserAsync(User);
+
+            if (user == null || !await _userManager.IsInRoleAsync(user, "Administrator"))
+            {
+                return RedirectToAction(nameof(PublicIndex));
+            }
+            return _context.Vehicles != null ? 
                           View(await _context.Vehicles.ToListAsync()) :
-                          Problem("Zestaw encji 'ApplicationDbContext.Vehicles'  jest pusty.");
+                          Problem("Zestaw encji 'ApplicationDbContext.Vehicles' jest pusty.");
+        }
+
+        // GET: Vehicles/PublicIndex
+        [AllowAnonymous]
+        public async Task<IActionResult> PublicIndex()
+        {
+            var vehicles = await _context.Vehicles.ToListAsync();
+            return View(vehicles);
         }
 
         // GET: Vehicles/Details/5
@@ -122,6 +144,7 @@ namespace Scaffold_Test_User.Controllers
             }
             return View(vehicle);
         }
+
 
         // GET: Vehicles/Delete/5
         [Authorize(Roles = "Administrator")]
