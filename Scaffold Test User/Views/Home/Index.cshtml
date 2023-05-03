@@ -1,6 +1,6 @@
 ﻿@{
-    ViewData["Title"] = "Wypożyczalnia pojazdów";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+ViewData["Title"] = "Wypożyczalnia pojazdów";
+Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <div class="jumbotron">
@@ -8,12 +8,11 @@
     <p class="lead">Szukasz dobrego samochodu, który umożliwi Ci zwiedzanie okolic lub przemieszczanie się na co dzień? W naszej wypożyczalni znajdziesz coś dla siebie! Oferujemy szeroką gamę pojazdów, które spełnią Twoje oczekiwania.</p>
     <hr class="my-4">
     <p>Zobacz naszą ofertę i wybierz pojazd, który najbardziej Ci odpowiada.</p>
-    <a class="btn btn-primary btn-lg" href="/Vehicles" role="button">Zobacz ofertę</a>
+    <a class="btn btn-primary btn-lg mb-3 col-md-12" href="/Vehicles" role="button">Zobacz ofertę</a>
 </div>
-
 <div class="row">
     <div class="col-md-4">
-        <div class="card mb-4 shadow-sm">
+        <div class="card mb-4 shadow-sm card-hover">
             <img src="~/images/cars.jpg" class="card-img-top" alt="Samochody">
             <div class="card-body">
                 <p class="card-text">Oferujemy szeroką gamę samochodów osobowych, od małych, miejskich aut po duże limuzyny. Wszystkie nasze pojazdy są w pełni sprawne i posiadają ważne ubezpieczenia.</p>
@@ -21,11 +20,26 @@
         </div>
     </div>
     <div class="col-md-4">
-        <div class="card mb-4 shadow-sm">
+        <div class="card mb-4 shadow-sm card-hover">
             <img src="~/images/vans.jpg" class="card-img-top" alt="Busy">
             <div class="card-body">
                 <p class="card-text">Potrzebujesz przewieźć większą grupę osób lub duży bagaż? Skorzystaj z naszych busów, które pomieszczą nawet do 9 pasażerów. Oferujemy także busy z przyczepą, idealne na wyjazdy w góry lub nad jezioro.</p>
             </div>
         </div>
     </div>
+    <div class="col-md-4">
+        <div class="card mb-4 shadow-sm card-hover">
+            <img src="~/images/motorcycles.jpg" class="card-img-top" alt="Motocykle">
+            <div class="card-body">
+                <p class="card-text">Chcesz poczuć wiatr we włosach i zwiedzić okolicę w niepowtarzalny sposób? Wybierz jeden z naszych motocykli i ciesz się przygodą. Oferujemy zarówno motocykle turystyczne, jak i sportowe.</p>
+            </div>
+        </div>
+    </div>
 </div>
+<style>
+    .card-hover:hover {
+        background-color: #007bff;
+        color: #fff;
+        transition: all 0.3s ease-in-out;
+    }
+</style>
