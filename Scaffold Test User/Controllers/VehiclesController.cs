@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -24,7 +25,7 @@ namespace Scaffold_Test_User.Controllers
         {
               return _context.Vehicles != null ? 
                           View(await _context.Vehicles.ToListAsync()) :
-                          Problem("Entity set 'ApplicationDbContext.Vehicles'  is null.");
+                          Problem("Zestaw encji 'ApplicationDbContext.Vehicles'  jest pusty.");
         }
 
         // GET: Vehicles/Details/5
@@ -46,6 +47,7 @@ namespace Scaffold_Test_User.Controllers
         }
 
         // GET: Vehicles/Create
+        [Authorize(Roles = "Administrator")]
         public IActionResult Create()
         {
             return View();
@@ -56,6 +58,7 @@ namespace Scaffold_Test_User.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> Create([Bind("Id,Name,Price,Taken,ClientId,Description")] Vehicle vehicle)
         {
             if (ModelState.IsValid)
@@ -68,6 +71,7 @@ namespace Scaffold_Test_User.Controllers
         }
 
         // GET: Vehicles/Edit/5
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null || _context.Vehicles == null)
@@ -88,6 +92,7 @@ namespace Scaffold_Test_User.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Price,Taken,ClientId,Description")] Vehicle vehicle)
         {
             if (id != vehicle.Id)
@@ -119,6 +124,7 @@ namespace Scaffold_Test_User.Controllers
         }
 
         // GET: Vehicles/Delete/5
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null || _context.Vehicles == null)
@@ -139,6 +145,7 @@ namespace Scaffold_Test_User.Controllers
         // POST: Vehicles/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             if (_context.Vehicles == null)
