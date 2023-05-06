@@ -3,14 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Scaffold_Test_User.Areas.Identity.Data;
 using Scaffold_Test_User.Models;
-using Microsoft.AspNetCore.Identity;
-
-
 
 namespace Scaffold_Test_User.Controllers
 {
@@ -18,7 +16,7 @@ namespace Scaffold_Test_User.Controllers
     {
         private readonly ApplicationDbContext _context;
 
-
+        //zastanowic sie czy potrzebne
         private readonly UserManager<ApplicationUser> _userManager;
 
         public VehiclesController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
@@ -26,7 +24,6 @@ namespace Scaffold_Test_User.Controllers
             _context = context;
             _userManager = userManager;
         }
-
 
         // GET: Vehicles
         public async Task<IActionResult> Index()
@@ -37,7 +34,7 @@ namespace Scaffold_Test_User.Controllers
             {
                 return RedirectToAction(nameof(PublicIndex));
             }
-            return _context.Vehicles != null ? 
+            return _context.Vehicles != null ?
                           View(await _context.Vehicles.ToListAsync()) :
                           Problem("Zestaw encji 'ApplicationDbContext.Vehicles' jest pusty.");
         }
@@ -59,6 +56,7 @@ namespace Scaffold_Test_User.Controllers
             }
 
             var vehicle = await _context.Vehicles
+                .Include(v => v.User)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (vehicle == null)
             {
@@ -72,6 +70,16 @@ namespace Scaffold_Test_User.Controllers
         [Authorize(Roles = "Administrator")]
         public IActionResult Create()
         {
+            var userIds = _context.Users.Select(u => new SelectListItem
+            {
+                Value = u.Id,
+                Text = u.UserName
+            }).ToList();
+
+            userIds.Insert(0, new SelectListItem { Value = null, Text = "-- no user --" });
+
+            ViewBag.UserId = userIds;
+
             return View();
         }
 
@@ -81,7 +89,7 @@ namespace Scaffold_Test_User.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Administrator")]
-        public async Task<IActionResult> Create([Bind("Id,Name,Price,Taken,ClientId,Description")] Vehicle vehicle)
+        public async Task<IActionResult> Create([Bind("Id,Name,Price,Taken,Description,UserId")] Vehicle vehicle)
         {
             if (ModelState.IsValid)
             {
@@ -89,6 +97,7 @@ namespace Scaffold_Test_User.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id", vehicle.UserId);
             return View(vehicle);
         }
 
@@ -106,6 +115,7 @@ namespace Scaffold_Test_User.Controllers
             {
                 return NotFound();
             }
+            ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id", vehicle.UserId);
             return View(vehicle);
         }
 
@@ -115,7 +125,7 @@ namespace Scaffold_Test_User.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Administrator")]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Price,Taken,ClientId,Description")] Vehicle vehicle)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Price,Taken,Description,UserId")] Vehicle vehicle)
         {
             if (id != vehicle.Id)
             {
@@ -142,9 +152,9 @@ namespace Scaffold_Test_User.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id", vehicle.UserId);
             return View(vehicle);
         }
-
 
         // GET: Vehicles/Delete/5
         [Authorize(Roles = "Administrator")]
@@ -156,6 +166,7 @@ namespace Scaffold_Test_User.Controllers
             }
 
             var vehicle = await _context.Vehicles
+                .Include(v => v.User)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (vehicle == null)
             {

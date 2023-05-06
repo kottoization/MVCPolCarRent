@@ -11,8 +11,8 @@ using Scaffold_Test_User.Areas.Identity.Data;
 namespace Scaffold_Test_User.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230426205846_FirstMigration")]
-    partial class FirstMigration
+    [Migration("20230506095858_InitialMigration")]
+    partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -47,8 +47,8 @@ namespace Scaffold_Test_User.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "81d6bf44-5655-4c90-bc85-2925f6bb7704",
-                            ConcurrencyStamp = "4c0cc104-7f6a-4e93-ad70-39529a519321",
+                            Id = "d0fdb2c3-3a7f-43cf-836a-52cc061eab4f",
+                            ConcurrencyStamp = "89873869-ee76-4852-9573-26efb6215713",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
                         });
@@ -141,8 +141,8 @@ namespace Scaffold_Test_User.Migrations
                     b.HasData(
                         new
                         {
-                            UserId = "3441ccad-5f86-4661-ac3d-49a3228a1cf9",
-                            RoleId = "81d6bf44-5655-4c90-bc85-2925f6bb7704"
+                            UserId = "093fa30b-521f-41e3-a96c-9e585dde1b20",
+                            RoleId = "d0fdb2c3-3a7f-43cf-836a-52cc061eab4f"
                         });
                 });
 
@@ -243,9 +243,9 @@ namespace Scaffold_Test_User.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "3441ccad-5f86-4661-ac3d-49a3228a1cf9",
+                            Id = "093fa30b-521f-41e3-a96c-9e585dde1b20",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "49f38663-9b42-4988-9eaf-15f9fd38656e",
+                            ConcurrencyStamp = "dde0707d-3488-49fe-a812-e30d9e46f3fa",
                             Email = "admin@example.com",
                             EmailConfirmed = false,
                             FirstName = "Admin",
@@ -253,9 +253,9 @@ namespace Scaffold_Test_User.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@EXAMPLE.COM",
                             NormalizedUserName = "ADMIN@EXAMPLE.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEPgVDFFcX6t/ysxIwFA0NBVXqNDkv3mnQyQ6C0K9b98apFqK4Mam0ki9ITI120Vwww==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEM6Ympy/N1MqRYUmvrhjBRlYzud+iZWzosxKMllhvI8LJyGiZZtPhFYMQLjAqjy1VA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "774c400f-9b8b-4a02-8d7d-411cdb7bdf7d",
+                            SecurityStamp = "f38ff671-2110-4a82-855a-6233f0861420",
                             TwoFactorEnabled = false,
                             UserName = "admin@example.com"
                         });
@@ -265,9 +265,6 @@ namespace Scaffold_Test_User.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int?>("ClientId")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Description")
@@ -283,7 +280,12 @@ namespace Scaffold_Test_User.Migrations
                     b.Property<bool>("Taken")
                         .HasColumnType("INTEGER");
 
+                    b.Property<string>("UserId")
+                        .HasColumnType("TEXT");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Vehicles");
                 });
@@ -337,6 +339,20 @@ namespace Scaffold_Test_User.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("Scaffold_Test_User.Models.Vehicle", b =>
+                {
+                    b.HasOne("Scaffold_Test_User.Areas.Identity.Data.ApplicationUser", "User")
+                        .WithMany("Reservations")
+                        .HasForeignKey("UserId");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Scaffold_Test_User.Areas.Identity.Data.ApplicationUser", b =>
+                {
+                    b.Navigation("Reservations");
                 });
 #pragma warning restore 612, 618
         }
