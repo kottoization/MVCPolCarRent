@@ -17,26 +17,10 @@ namespace Scaffold_Test_User.Models
         [Required]
         [DisplayName("Czy pojazd jest wynajęty")]
         public bool Taken { get; set; } = false;
-        // [DisplayName("ID klienta")]
-        //public int? ClientId { get; set; }
+        
         [DisplayName("Opis")]
         public string? Description { get; set; }
 
-        public string? UserId { get; set; }
-        public ApplicationUser? User { get; set; }
-
-        public void Rent(ApplicationUser user)
-        {
-            this.Taken = true;
-            this.User = user;
-            user.Reservations.Add(this);
-        }
-
-        public void Return()
-        {
-            this.Taken = false;
-            this.User.Reservations.Remove(this);
-            this.User = null;
-        }
+        
     }
 }

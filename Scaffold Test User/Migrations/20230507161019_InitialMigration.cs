@@ -51,6 +51,22 @@ namespace Scaffold_Test_User.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Vehicles",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Name = table.Column<string>(type: "TEXT", nullable: false),
+                    Price = table.Column<double>(type: "REAL", nullable: false),
+                    Taken = table.Column<bool>(type: "INTEGER", nullable: false),
+                    Description = table.Column<string>(type: "TEXT", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Vehicles", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "AspNetRoleClaims",
                 columns: table => new
                 {
@@ -156,42 +172,20 @@ namespace Scaffold_Test_User.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
-            migrationBuilder.CreateTable(
-                name: "Vehicles",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    Name = table.Column<string>(type: "TEXT", nullable: false),
-                    Price = table.Column<double>(type: "REAL", nullable: false),
-                    Taken = table.Column<bool>(type: "INTEGER", nullable: false),
-                    Description = table.Column<string>(type: "TEXT", nullable: true),
-                    UserId = table.Column<string>(type: "TEXT", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Vehicles", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Vehicles_AspNetUsers_UserId",
-                        column: x => x.UserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id");
-                });
-
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "d0fdb2c3-3a7f-43cf-836a-52cc061eab4f", "89873869-ee76-4852-9573-26efb6215713", "Administrator", "ADMINISTRATOR" });
+                values: new object[] { "f5627c9f-190a-4238-ae41-8abf419b917b", "52a92bf8-ab80-4e73-9971-7159a801dea6", "Administrator", "ADMINISTRATOR" });
 
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "FirstName", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { "093fa30b-521f-41e3-a96c-9e585dde1b20", 0, "dde0707d-3488-49fe-a812-e30d9e46f3fa", "admin@example.com", false, "Admin", "Admin", false, null, "ADMIN@EXAMPLE.COM", "ADMIN@EXAMPLE.COM", "AQAAAAEAACcQAAAAEM6Ympy/N1MqRYUmvrhjBRlYzud+iZWzosxKMllhvI8LJyGiZZtPhFYMQLjAqjy1VA==", null, false, "f38ff671-2110-4a82-855a-6233f0861420", false, "admin@example.com" });
+                values: new object[] { "af10c80c-c8be-48fc-a514-0c8669594160", 0, "6d982ca9-07a6-491e-b136-9666c5d6395c", "admin@example.com", false, "Admin", "Admin", false, null, "ADMIN@EXAMPLE.COM", "ADMIN@EXAMPLE.COM", "AQAAAAEAACcQAAAAEDRxJ/x069KKauHz/kFsZ1LNvALWHnU5wV6IJ0TREo3LEt+QUzQq7nX4hVol+EkaxA==", null, false, "a11ef366-7351-42b7-8070-72072cfbc42e", false, "admin@example.com" });
 
             migrationBuilder.InsertData(
                 table: "AspNetUserRoles",
                 columns: new[] { "RoleId", "UserId" },
-                values: new object[] { "d0fdb2c3-3a7f-43cf-836a-52cc061eab4f", "093fa30b-521f-41e3-a96c-9e585dde1b20" });
+                values: new object[] { "f5627c9f-190a-4238-ae41-8abf419b917b", "af10c80c-c8be-48fc-a514-0c8669594160" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -229,11 +223,6 @@ namespace Scaffold_Test_User.Migrations
                 table: "AspNetUsers",
                 column: "NormalizedUserName",
                 unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Vehicles_UserId",
-                table: "Vehicles",
-                column: "UserId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

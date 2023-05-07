@@ -11,7 +11,9 @@ namespace Scaffold_Test_User.Areas.Identity.Data;
 
 public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
 {
+
     public DbSet<Vehicle> Vehicles { get; set; }
+    public DbSet<Reservation> Reservations { get; set; }
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
 
     protected override void OnModelCreating(ModelBuilder builder)
@@ -60,6 +62,21 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
         };
 
         builder.Entity<IdentityUserRole<string>>().HasData(identityUserRoleToSeed);
+
+        builder.Entity<Reservation>()
+            .HasKey(r => r.Id);
+
+        builder.Entity<Reservation>()
+       .HasOne(r => r.User)
+       .WithMany()
+       .HasForeignKey(r => r.UserId)
+       .OnDelete(DeleteBehavior.Cascade);
+
+        builder.Entity<Reservation>()
+        .HasOne(r => r.Vehicle)
+        .WithMany()
+        .HasForeignKey(r => r.VehicleId)
+        .OnDelete(DeleteBehavior.Cascade);
 
         builder.ApplyConfiguration(new ApplicationUserEntityConfiguration());
     }

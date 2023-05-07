@@ -3,10 +3,12 @@
 @{
     ViewData["Title"] = "PanelAdministracyjnyPojazdów";
 }
+
 @if (!User.IsInRole("Administrator"))
 {
     <h1>Nie masz dostępu do tej części strony.</h1>
 }
+
 else
 {
 
@@ -30,9 +32,6 @@ else
                 <th>
                     @Html.DisplayNameFor(model => model.Description)
                 </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.User)
-                </th>
                 <th></th>
             </tr>
         </thead>
@@ -51,9 +50,6 @@ else
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.Description)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.User.Id)
                     </td>
                     <td>
                         <a asp-action="Edit" asp-route-id="@item.Id">Edytuj</a> |

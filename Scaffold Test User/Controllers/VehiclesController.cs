@@ -15,8 +15,6 @@ namespace Scaffold_Test_User.Controllers
     public class VehiclesController : Controller
     {
         private readonly ApplicationDbContext _context;
-
-        //zastanowic sie czy potrzebne
         private readonly UserManager<ApplicationUser> _userManager;
 
         public VehiclesController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
@@ -48,6 +46,7 @@ namespace Scaffold_Test_User.Controllers
         }
 
         // GET: Vehicles/Details/5
+        [AllowAnonymous]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null || _context.Vehicles == null)
@@ -56,7 +55,6 @@ namespace Scaffold_Test_User.Controllers
             }
 
             var vehicle = await _context.Vehicles
-                .Include(v => v.User)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (vehicle == null)
             {
@@ -70,16 +68,6 @@ namespace Scaffold_Test_User.Controllers
         [Authorize(Roles = "Administrator")]
         public IActionResult Create()
         {
-            var userIds = _context.Users.Select(u => new SelectListItem
-            {
-                Value = u.Id,
-                Text = u.UserName
-            }).ToList();
-
-            userIds.Insert(0, new SelectListItem { Value = null, Text = "-- no user --" });
-
-            ViewBag.UserId = userIds;
-
             return View();
         }
 
@@ -89,7 +77,7 @@ namespace Scaffold_Test_User.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Administrator")]
-        public async Task<IActionResult> Create([Bind("Id,Name,Price,Taken,Description,UserId")] Vehicle vehicle)
+        public async Task<IActionResult> Create([Bind("Id,Name,Price,Taken,Description")] Vehicle vehicle)
         {
             if (ModelState.IsValid)
             {
@@ -97,7 +85,6 @@ namespace Scaffold_Test_User.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id", vehicle.UserId);
             return View(vehicle);
         }
 
@@ -115,7 +102,6 @@ namespace Scaffold_Test_User.Controllers
             {
                 return NotFound();
             }
-            ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id", vehicle.UserId);
             return View(vehicle);
         }
 
@@ -125,7 +111,7 @@ namespace Scaffold_Test_User.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Administrator")]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Price,Taken,Description,UserId")] Vehicle vehicle)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Price,Taken,Description")] Vehicle vehicle)
         {
             if (id != vehicle.Id)
             {
@@ -152,7 +138,6 @@ namespace Scaffold_Test_User.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id", vehicle.UserId);
             return View(vehicle);
         }
 
@@ -166,7 +151,6 @@ namespace Scaffold_Test_User.Controllers
             }
 
             var vehicle = await _context.Vehicles
-                .Include(v => v.User)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (vehicle == null)
             {

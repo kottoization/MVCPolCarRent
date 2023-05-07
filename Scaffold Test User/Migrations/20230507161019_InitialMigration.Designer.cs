@@ -11,7 +11,7 @@ using Scaffold_Test_User.Areas.Identity.Data;
 namespace Scaffold_Test_User.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230506095858_InitialMigration")]
+    [Migration("20230507161019_InitialMigration")]
     partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -47,8 +47,8 @@ namespace Scaffold_Test_User.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "d0fdb2c3-3a7f-43cf-836a-52cc061eab4f",
-                            ConcurrencyStamp = "89873869-ee76-4852-9573-26efb6215713",
+                            Id = "f5627c9f-190a-4238-ae41-8abf419b917b",
+                            ConcurrencyStamp = "52a92bf8-ab80-4e73-9971-7159a801dea6",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
                         });
@@ -141,8 +141,8 @@ namespace Scaffold_Test_User.Migrations
                     b.HasData(
                         new
                         {
-                            UserId = "093fa30b-521f-41e3-a96c-9e585dde1b20",
-                            RoleId = "d0fdb2c3-3a7f-43cf-836a-52cc061eab4f"
+                            UserId = "af10c80c-c8be-48fc-a514-0c8669594160",
+                            RoleId = "f5627c9f-190a-4238-ae41-8abf419b917b"
                         });
                 });
 
@@ -243,9 +243,9 @@ namespace Scaffold_Test_User.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "093fa30b-521f-41e3-a96c-9e585dde1b20",
+                            Id = "af10c80c-c8be-48fc-a514-0c8669594160",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "dde0707d-3488-49fe-a812-e30d9e46f3fa",
+                            ConcurrencyStamp = "6d982ca9-07a6-491e-b136-9666c5d6395c",
                             Email = "admin@example.com",
                             EmailConfirmed = false,
                             FirstName = "Admin",
@@ -253,9 +253,9 @@ namespace Scaffold_Test_User.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@EXAMPLE.COM",
                             NormalizedUserName = "ADMIN@EXAMPLE.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEM6Ympy/N1MqRYUmvrhjBRlYzud+iZWzosxKMllhvI8LJyGiZZtPhFYMQLjAqjy1VA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEDRxJ/x069KKauHz/kFsZ1LNvALWHnU5wV6IJ0TREo3LEt+QUzQq7nX4hVol+EkaxA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "f38ff671-2110-4a82-855a-6233f0861420",
+                            SecurityStamp = "a11ef366-7351-42b7-8070-72072cfbc42e",
                             TwoFactorEnabled = false,
                             UserName = "admin@example.com"
                         });
@@ -280,12 +280,7 @@ namespace Scaffold_Test_User.Migrations
                     b.Property<bool>("Taken")
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("UserId")
-                        .HasColumnType("TEXT");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("Vehicles");
                 });
@@ -339,20 +334,6 @@ namespace Scaffold_Test_User.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("Scaffold_Test_User.Models.Vehicle", b =>
-                {
-                    b.HasOne("Scaffold_Test_User.Areas.Identity.Data.ApplicationUser", "User")
-                        .WithMany("Reservations")
-                        .HasForeignKey("UserId");
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("Scaffold_Test_User.Areas.Identity.Data.ApplicationUser", b =>
-                {
-                    b.Navigation("Reservations");
                 });
 #pragma warning restore 612, 618
         }
