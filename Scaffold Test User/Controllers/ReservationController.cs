@@ -14,7 +14,7 @@ namespace Scaffold_Test_User.Controllers
             _context = context;
         }
 
-        public Task<IActionResult> Index()
+        public IActionResult Index()
         {
             return View();
         }
@@ -39,5 +39,26 @@ namespace Scaffold_Test_User.Controllers
         }
 
 
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Delete(int reservationId)
+        {
+            var reservation = await _context.Reservations.FindAsync(reservationId);
+
+            if (reservation != null)
+            {
+                _context.Remove(reservation);
+                await _context.SaveChangesAsync();
+
+                var vehicle = await _context.Vehicles.FindAsync(reservation.VehicleId);
+                vehicle.Taken = false;
+                _context.Update(vehicle);
+                await _context.SaveChangesAsync();
+            }
+
+            return RedirectToAction(nameof(Index));
+        }
     }
+
 }
+

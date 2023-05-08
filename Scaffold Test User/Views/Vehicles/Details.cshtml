@@ -48,10 +48,10 @@
     }
     else
     {
-        //analuj rezerwacje
+        <h1>analuj rezerwacje</h1>
     }
 }
-@if (User != null && User.Identity.IsAuthenticated && User.IsInRole("Administrator"))
+else if (User != null && User.Identity.IsAuthenticated && User.IsInRole("Administrator"))
 {
     <div>
         <a asp-action="Edit" asp-route-id="@Model?.Id">Edytuj</a> |
@@ -61,6 +61,7 @@
 else
 {
     <div>
+        <h5 style="color:red">Musisz być zalogowany aby zarezerwować pojazd.</h5>
         <a asp-action="Index">Powróć do listy</a>
     </div>
 }

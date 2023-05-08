@@ -1,0 +1,95 @@
+﻿@using Scaffold_Test_User.Models
+@using Microsoft.AspNetCore.Identity
+@using Scaffold_Test_User.Areas.Identity.Data;
+
+
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+@inject ApplicationDbContext ApplicationDbContext
+
+@if (!SignInManager.IsSignedIn(User))
+{
+    <h1>Aby wyświetlić swoje pojazdy uprzednio musisz się zalogować.</h1>
+}
+else
+{
+
+    var currentUser = await UserManager.GetUserAsync(User);
+    var reservations = ApplicationDbContext.Reservations.Where(r => r.UserId == currentUser.Id).ToList();
+  @*  @if (!User.IsInRole("Administrator"))*@
+    {
+        if (reservations.Count == 0)
+        {
+            <h1>Nie masz żadnych rezerwacji, przejdź do zakładki pojazdy.</h1>
+        }
+        else
+        {
+            <h1>Vehicles you have reserved:</h1>
+            <ul>
+                @foreach (var reservation in reservations)
+                {
+                    var vehicle = ApplicationDbContext.Vehicles.FirstOrDefault(v => v.Id == reservation.VehicleId);
+                    if (vehicle != null)
+                    {
+                        <div class="col">
+                            <div class="card shadow-sm">
+                                @* <img src="@vehicle.ImageUrl" alt="@vehicle.Name" class="bd-placeholder-img card-img-top" width="100%" height="225">*@
+                                <div class="card-body">
+                                    <h5 class="card-title">@vehicle.Name</h5>
+                                    <p class="card-text">@vehicle.Description</p>
+                                    <p class="card-text">Cena: @vehicle.Price zł.</p>
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div class="btn-group">
+                                            <form method="post" asp-action="Delete" asp-route-reservationId="@reservation.Id">
+                                                <button type="submit" class="btn btn-sm btn-outline-danger">Usuń</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                }
+            </ul>
+        }
+    }
+   @* @if (User.IsInRole("Administrator")){
+    <h1>Wszystkie rezerwacje:</h1>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Id rezerwacji</th>
+                <th>Imie</th>
+                <th>Nazwisko</th>
+                <th>Id pojazdu</th>
+                <th>Nazwa pojazdu</th>
+                <th>Akcje</th>
+            </tr>
+        </thead>
+        <tbody>
+           @foreach (var reservation in reservations)
+                {
+                    var user = ApplicationDbContext.Users.FirstOrDefault(u => u.Id == reservation.UserId);
+                    var vehicle = ApplicationDbContext.Vehicles.FirstOrDefault(v => v.Id == reservation.VehicleId);
+
+                    if (user != null && vehicle != null)
+                    {
+                        <tr>
+                            <td>@reservation.Id</td>
+                            <td>@(reservation.UserId == user.Id ? user.FirstName : "")</td>
+                            <td>@(reservation.UserId == user.Id ? user.LastName : "")</td>
+                            <td>@reservation.VehicleId</td>
+                            <td>@(reservation.VehicleId == vehicle.Id ? vehicle.Name : "")</td>
+                            <td>
+                                <form method="post" asp-action="Delete" asp-route-reservationId="@reservation.Id">
+                                    <button type="submit" class="btn btn-sm btn-outline-danger">Usuń</button>
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                }
+        </tbody>
+    </table>
+}*@
+
+}
