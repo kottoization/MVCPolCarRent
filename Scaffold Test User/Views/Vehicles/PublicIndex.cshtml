@@ -10,6 +10,7 @@
 <table class="table">
     <thead>
         <tr>
+             <th>Zdjęcie</th>
             <th>
                 @Html.DisplayNameFor(model => model.Name)
             </th>
@@ -24,7 +25,25 @@
         {
             @if (!item.Taken)
             {
+                string imageSource;
+                if (item.Name.StartsWith("s", StringComparison.OrdinalIgnoreCase))
+                {
+                    imageSource = "cars.jpg";
+                }
+                else if (item.Name.StartsWith("v", StringComparison.OrdinalIgnoreCase))
+                {
+                    imageSource = "vans.jpg";
+                }
+                else if (item.Name.StartsWith("m", StringComparison.OrdinalIgnoreCase))
+                {
+                    imageSource = "motorcycles.jpg";
+                }
+                else
+                {
+                    imageSource = "photo.png";
+                }
                 <tr>
+                     <td><img src="@Url.Content("~/Images/" + imageSource)" alt="zdjecie pojazdu" style="width: 60px; height: 60px;" /></td>
                     <td>
                         @Html.DisplayFor(modelItem => item.Name)
                     </td>

@@ -15,6 +15,12 @@ namespace Scaffold_Test_User.Controllers
 
         public IActionResult Index()
         {
+
+            return View();
+        }
+
+        public IActionResult PriceList()
+        {
             return View();
         }
 
@@ -28,5 +34,7 @@ namespace Scaffold_Test_User.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+
+
     }
 }
