@@ -9,16 +9,16 @@ namespace Scaffold_Test_User.Models
         [Key]
         public int Id { get; set; }
         [Required]
-        [DisplayName("Nazwa")]
+        [DisplayName("Nazwa :")]
         public string Name { get; set; }
         [Required]
-        [DisplayName("Cena")]
+        [DisplayName("Cena :")]
         public double Price { get; set; }
         [Required]
-        [DisplayName("Czy pojazd jest wynajęty")]
+        [DisplayName("Czy pojazd jest wynajęty :")]
         public bool Taken { get; set; } = false;
         
-        [DisplayName("Opis")]
+        [DisplayName("Opis :")]
         public string? Description { get; set; }
 
         

@@ -16,62 +16,119 @@ else
 
     var currentUser = await UserManager.GetUserAsync(User);
     var reservations = ApplicationDbContext.Reservations.Where(r => r.UserId == currentUser.Id).ToList();
-    @*  @if (!User.IsInRole("Administrator"))*@
+
     {
-        if (reservations.Count == 0)
+        if (reservations.Count == 0 && !User.IsInRole("Administrator"))
         {
             <h1>Nie masz żadnych rezerwacji, przejdź do zakładki pojazdy.</h1>
         }
         else
         {
-            <h1>Twoje zarezerwowane pojazdy:</h1>
-            <ul>
-                @foreach (var reservation in reservations)
-                {
-                    var vehicle = ApplicationDbContext.Vehicles.FirstOrDefault(v => v.Id == reservation.VehicleId);
-                    if (vehicle != null)
+            if (!User.IsInRole("Administrator"))
+            {
+                <h1>Twoje zarezerwowane pojazdy:</h1>
+                <ul>
+                    @foreach (var reservation in reservations)
                     {
-                        <div class="col">
-                            <div class="card shadow-sm">
-                                <div class="row no-gutters">
-                                    <div class="col-md-4">
-                                        @if (vehicle.Name.StartsWith("s") || vehicle.Name.StartsWith("S"))
-                                        {
-                                            <img src="~/images/cars.jpg" class="card-img" alt="Car" style="width: 200px; height: 200px;">
-                                        }
-                                        else if (vehicle.Name.StartsWith("v") || vehicle.Name.StartsWith("V"))
-                                        {
-                                            <img src="~/images/vans.jpg" class="card-img" alt="Van" style="width: 200px; height: 200px;">
-                                        }
-                                        else if (vehicle.Name.StartsWith("m") || vehicle.Name.StartsWith("M"))
-                                        {
-                                            <img src="~/images/motorcycles.jpg" class="card-img" alt="Motorcycle" style="width: 200px; height: 200px;">
-                                        }
-                                        else
-                                        {
-                                            <img src="~/images/photo.png" class="card-img" alt="Photo" style="width: 200px; height: 200px;">
-                                        }
-                                    </div>
-                                    <div class="col-md-8">
-                                        <div class="card-body">
-                                            <h5 class="card-title">@vehicle.Name</h5>
-                                            <p class="card-text">@vehicle.Description</p>
-                                            <p class="card-text">Cena: @vehicle.Price zł.</p>
-                                            <div class="d-flex justify-content-between align-items-center">
-                                                <div class="btn-group">
-                                                    <form method="post" asp-action="Delete" asp-route-reservationId="@reservation.Id">
-                                                        <button type="submit" class="btn btn-sm btn-outline-danger">Usuń</button>
-                                                    </form>
+                        var vehicle = ApplicationDbContext.Vehicles.FirstOrDefault(v => v.Id == reservation.VehicleId);
+                        if (vehicle != null)
+                        {
+                            <div class="col">
+                                <div class="card shadow-sm p-lg-2">
+                                    <div class="row no-gutters ">
+                                        <div class="col-md-4">
+                                            @if (vehicle.Name.StartsWith("s") || vehicle.Name.StartsWith("S"))
+                                            {
+                                                <img src="~/images/cars.jpg" class="card-img" alt="Car" style="width: 200px; height: 200px;">
+                                            }
+                                            else if (vehicle.Name.StartsWith("v") || vehicle.Name.StartsWith("V"))
+                                            {
+                                                <img src="~/images/vans.jpg" class="card-img" alt="Van" style="width: 200px; height: 200px;">
+                                            }
+                                            else if (vehicle.Name.StartsWith("m") || vehicle.Name.StartsWith("M"))
+                                            {
+                                                <img src="~/images/motorcycles.jpg" class="card-img" alt="Motorcycle" style="width: 200px; height: 200px;">
+                                            }
+                                            else
+                                            {
+                                                <img src="~/images/photo.png" class="card-img" alt="Photo" style="width: 200px; height: 200px;">
+                                            }
+                                        </div>
+                                        <div class="col-md-8">
+                                            <div class="card-body">
+                                                <h5 class="card-title">@vehicle.Name</h5>
+                                                <p class="card-text">@vehicle.Description</p>
+                                                <p class="card-text">Cena: @vehicle.Price zł.</p>
+                                                <div class="d-flex justify-content-between align-items-center">
+                                                    <div class="btn-group">
+                                                        <form method="post" asp-action="Delete" asp-route-reservationId="@reservation.Id">
+                                                            <button type="submit" class="btn btn-sm btn-outline-danger">Usuń</button>
+                                                        </form>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        }
                     }
-                }
-            </ul>
+                </ul>
+
+            }
+            else
+            {
+                <h1>Wszystkie zarezerwowane pojazdy:</h1>
+                <ul>
+                    @foreach (var reservation in ApplicationDbContext.Reservations.ToList())
+                    {                        
+                        var vehicle = ApplicationDbContext.Vehicles.FirstOrDefault(v => v.Id == reservation.VehicleId);
+                        if (vehicle != null)
+                        {
+                            <div class="col">
+                                <div class="card shadow-sm p-lg-2">
+                                    <div class="row no-gutters">
+                                        <div class="col-md-4">
+                                            @if (vehicle.Name.StartsWith("s") || vehicle.Name.StartsWith("S"))
+                                            {
+                                                <img src="~/images/cars.jpg" class="card-img" alt="Car" style="width: 200px; height: 200px;">
+                                            }
+                                            else if (vehicle.Name.StartsWith("v") || vehicle.Name.StartsWith("V"))
+                                            {
+                                                <img src="~/images/vans.jpg" class="card-img" alt="Van" style="width: 200px; height: 200px;">
+                                            }
+                                            else if (vehicle.Name.StartsWith("m") || vehicle.Name.StartsWith("M"))
+                                            {
+                                                <img src="~/images/motorcycles.jpg" class="card-img" alt="Motorcycle" style="width: 200px; height: 200px;">
+                                            }
+                                            else
+                                            {
+                                                <img src="~/images/photo.png" class="card-img" alt="Photo" style="width: 200px; height: 200px;">
+                                            }
+                                        </div>
+                                        <div class="col-md-8">
+                                            <div class="card-body">
+                                                <h5 class="card-title">@vehicle.Name</h5>
+                                                <p class="card-text">@vehicle.Description</p>
+                                                <p class="card-text">Cena: @vehicle.Price zł.</p>
+                                                <div class="d-flex justify-content-between align-items-center">
+                                                    <div class="btn-group gap-3">
+                                                        Użytkownik:    @reservation.UserId.ToString()      
+                                                        <form method="post" asp-action="Delete" asp-route-reservationId="@reservation.Id">
+                                                            <button type="submit" class="btn btn-sm btn-outline-danger">Usuń</button>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    }
+                </ul>
+
+            }
         }
     }
     @* @if (User.IsInRole("Administrator"))
