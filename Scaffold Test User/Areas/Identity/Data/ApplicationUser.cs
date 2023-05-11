@@ -7,7 +7,6 @@ using Scaffold_Test_User.Models;
 
 namespace Scaffold_Test_User.Areas.Identity.Data;
 
-// Add profile data for application users by adding properties to the ApplicationUser class
 public class ApplicationUser : IdentityUser
 {   
     public string FirstName { get; set; }

@@ -81,7 +81,7 @@ else
                 <h1>Wszystkie zarezerwowane pojazdy:</h1>
                 <ul>
                     @foreach (var reservation in ApplicationDbContext.Reservations.ToList())
-                    {                        
+                    {
                         var vehicle = ApplicationDbContext.Vehicles.FirstOrDefault(v => v.Id == reservation.VehicleId);
                         if (vehicle != null)
                         {
@@ -113,9 +113,9 @@ else
                                                 <p class="card-text">Cena: @vehicle.Price zł.</p>
                                                 <div class="d-flex justify-content-between align-items-center">
                                                     <div class="btn-group gap-3">
-                                                        Użytkownik:    @reservation.UserId.ToString()      
+                                                        Użytkownik:    @reservation.UserId.ToString()
                                                         <form method="post" asp-action="Delete" asp-route-reservationId="@reservation.Id">
-                                                            <button type="submit" class="btn btn-sm btn-outline-danger">Usuń</button>
+                                                            <button type="submit" class="btn btn-sm btn-outline-danger">Anuluj rezerwację</button>
                                                         </form>
                                                     </div>
                                                 </div>
@@ -131,44 +131,4 @@ else
             }
         }
     }
-    @* @if (User.IsInRole("Administrator"))
-    {
-        <h1>Wszystkie rezerwacje:</h1>
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                    <th>Id rezerwacji</th>
-                    <th>Imie</th>
-                    <th>Nazwisko</th>
-                    <th>Id pojazdu</th>
-                    <th>Nazwa pojazdu</th>
-                    <th>Akcje</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var reservation in reservations)
-                {
-                    var user = ApplicationDbContext.Users.FirstOrDefault(u => u.Id == reservation.UserId);
-                    var vehicle = ApplicationDbContext.Vehicles.FirstOrDefault(v => v.Id == reservation.VehicleId);
-
-                    if (user != null && vehicle != null)
-                    {
-                        <tr>
-                            <td>@reservation.Id</td>
-                            <td>@(reservation.UserId == user.Id ? user.FirstName : "")</td>
-                            <td>@(reservation.UserId == user.Id ? user.LastName : "")</td>
-                            <td>@reservation.VehicleId</td>
-                            <td>@(reservation.VehicleId == vehicle.Id ? vehicle.Name : "")</td>
-                            <td>
-                                <form method="post" asp-action="Delete" asp-route-reservationId="@reservation.Id">
-                                    <button type="submit" class="btn btn-sm btn-outline-danger">Usuń</button>
-                                </form>
-                            </td>
-                        </tr>
-                    }
-                }
-            </tbody>
-        </table>
-    }               *@
-
 }
