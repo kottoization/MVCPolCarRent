@@ -48,7 +48,7 @@
 {
     @if (!Model.Taken)
     {
-        <form method="post" asp-controller="Reservation" asp-action="Create">
+        <form asp-controller="Reservation" asp-action="CreateReservation">
             <input type="hidden" name="vehicleId" value="@Model.Id" />
             <button type="submit">Zarezerwuj pojazd</button>
         </form>

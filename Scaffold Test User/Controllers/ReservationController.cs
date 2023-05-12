@@ -21,22 +21,41 @@ namespace Scaffold_Test_User.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(int vehicleId)
+        public async Task<IActionResult> Create(int vehicleId, int numberOfDays)
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             var reservation = new Reservation
             {
                 UserId = userId,
-                VehicleId = vehicleId
+                VehicleId = vehicleId,
+                NumberOfDays = numberOfDays
             };
+
             _context.Add(reservation);
             await _context.SaveChangesAsync();
+
             var vehicle = await _context.Vehicles.FindAsync(vehicleId);
             vehicle.Taken = true;
+
             _context.Update(vehicle);
             await _context.SaveChangesAsync();
+
             return RedirectToAction(nameof(Index), "Home");
         }
+
+        
+        public async Task<IActionResult> CreateReservation(int? vehicleId)
+        {
+            var vehicle = await _context.Vehicles.FindAsync(vehicleId);
+
+            if (vehicleId == null || vehicle == null)
+            {
+                return NotFound();
+            }
+            var reservation = new Reservation();
+            return View(Tuple.Create(vehicle,reservation));
+        }
+    
 
 
         [HttpPost, ActionName("Delete")]

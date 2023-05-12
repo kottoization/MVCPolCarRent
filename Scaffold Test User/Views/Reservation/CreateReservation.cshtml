@@ -1,0 +1,38 @@
+﻿@model Tuple<Vehicle, Reservation>
+
+
+@{
+    ViewData["Title"] = "Rezerwacja pojazdu";
+}
+
+<h1>Rezerwacja pojazdu @Model.Item1.Name</h1>
+
+<div>
+        <dl class="row">
+        <dt class="col-sm-2">
+            Cena
+        </dt>
+        <dd class="col-sm-10">
+            @Model.Item1.Price zł/dzień
+        </dd>        
+    </dl>
+</div>
+
+<hr />
+
+<div>
+    <form method="post" asp-controller="Reservation" asp-action="Create">
+        <input type="hidden" name="vehicleId" value="@Model.Item1.Id" />
+
+        <div class="form-group col-md-1">
+            <label asp-for="@Model.Item2.NumberOfDays">Liczba dni:</label>
+            <p></p>
+            <input asp-for="@Model.Item2.NumberOfDays" class="form-control" />
+            <p></p>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Zatwierdź</button>
+        <a asp-action="Index" class="btn btn-secondary">Anuluj</a>
+    </form>
+</div>
+

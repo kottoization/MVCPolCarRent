@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Scaffold_Test_User.Areas.Identity.Data;
 
@@ -10,9 +11,10 @@ using Scaffold_Test_User.Areas.Identity.Data;
 namespace Scaffold_Test_User.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230512120153_ThirdMigrationTestPrzechodniadousuniecia")]
+    partial class ThirdMigrationTestPrzechodniadousuniecia
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "6.0.15");
@@ -45,8 +47,8 @@ namespace Scaffold_Test_User.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "fea80bd4-0e8d-4065-b4ad-72cbc57a293e",
-                            ConcurrencyStamp = "e5068dac-3a53-4198-ab29-66ca6ada2719",
+                            Id = "9ef1f9fe-6c3a-456d-b0f2-26afdab87b8b",
+                            ConcurrencyStamp = "9faa15a6-66a8-4b21-8475-767025c30821",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
                         });
@@ -139,8 +141,8 @@ namespace Scaffold_Test_User.Migrations
                     b.HasData(
                         new
                         {
-                            UserId = "a573476a-9174-4923-b60b-a5bf10b64a77",
-                            RoleId = "fea80bd4-0e8d-4065-b4ad-72cbc57a293e"
+                            UserId = "039f2e79-648c-417c-a478-a005bbebb505",
+                            RoleId = "9ef1f9fe-6c3a-456d-b0f2-26afdab87b8b"
                         });
                 });
 
@@ -244,9 +246,9 @@ namespace Scaffold_Test_User.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "a573476a-9174-4923-b60b-a5bf10b64a77",
+                            Id = "039f2e79-648c-417c-a478-a005bbebb505",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "1b4362fc-2a71-4e06-83e4-fcd71ed62fd3",
+                            ConcurrencyStamp = "65f78328-56c3-4543-8a39-c8101685149a",
                             Email = "admin@example.com",
                             EmailConfirmed = false,
                             FirstName = "Admin",
@@ -254,9 +256,9 @@ namespace Scaffold_Test_User.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@EXAMPLE.COM",
                             NormalizedUserName = "ADMIN@EXAMPLE.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEOEvUsjq52yJoY04cetu1ZnEjE5L/CRejT0+pafzCdkGomvwTjAh1eAxLN9/k5E9tw==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEBEPN6C2b0GXPSWbP+Q9c7p5xGmyCLz6SEPmOpsWGYmLMKtxVRJj4CvYuyHwpX5iVw==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "bda11abe-9ef7-4ecd-8106-9839b9aeef74",
+                            SecurityStamp = "104e751c-ea54-40ec-8f17-01c41e50f3b1",
                             TwoFactorEnabled = false,
                             UserName = "admin@example.com",
                             reservationCount = 0
@@ -267,12 +269,6 @@ namespace Scaffold_Test_User.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("NumberOfDays")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("Price")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("UserId")

@@ -57,10 +57,11 @@ else
                                         <div class="col-md-8">
                                             <div class="card-body">
                                                 <h5 class="card-title">@vehicle.Name</h5>
+                                                <p class="card-text">Ilość dni: @reservation.NumberOfDays</p>
                                                 <p class="card-text">@vehicle.Description</p>
-                                                <p class="card-text">Cena: @vehicle.Price zł.</p>
+                                                <p class="card-text">Cena: @vehicle.Price zł.    Użytkownik: @reservation.User.Email.ToString() | @reservation.User.FirstName.ToString() | @reservation.User.LastName.ToString() </p>
                                                 <div class="d-flex justify-content-between align-items-center">
-                                                    <div class="btn-group">
+                                                    <div class="btn-group">                                                        
                                                         <form method="post" asp-action="Delete" asp-route-reservationId="@reservation.Id">
                                                             <button type="submit" class="btn btn-sm btn-outline-danger">Anuluj rezerwację</button>
                                                         </form>
@@ -124,7 +125,7 @@ else
                                     </div>
                                 </div>
                             </div>
-                        }
+                        }                        
                     }
                 </ul>
 
