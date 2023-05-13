@@ -21,14 +21,15 @@ namespace Scaffold_Test_User.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(int vehicleId, int numberOfDays)
+        public async Task<IActionResult> Create(int vehicleId, DateTime start, DateTime finish)
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             var reservation = new Reservation
             {
                 UserId = userId,
                 VehicleId = vehicleId,
-                NumberOfDays = numberOfDays
+                Finish = finish,
+                Start = start,
             };
 
             _context.Add(reservation);

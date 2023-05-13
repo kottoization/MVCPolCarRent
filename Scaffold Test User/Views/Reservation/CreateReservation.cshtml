@@ -8,13 +8,13 @@
 <h1>Rezerwacja pojazdu @Model.Item1.Name</h1>
 
 <div>
-        <dl class="row">
+    <dl class="row">
         <dt class="col-sm-2">
             Cena
         </dt>
         <dd class="col-sm-10">
             @Model.Item1.Price zł/dzień
-        </dd>        
+        </dd>
     </dl>
 </div>
 
@@ -23,12 +23,15 @@
 <div>
     <form method="post" asp-controller="Reservation" asp-action="Create">
         <input type="hidden" name="vehicleId" value="@Model.Item1.Id" />
-
-        <div class="form-group col-md-1">
-            <label asp-for="@Model.Item2.NumberOfDays">Liczba dni:</label>
-            <p></p>
-            <input asp-for="@Model.Item2.NumberOfDays" class="form-control" />
-            <p></p>
+        <div class="form-group">
+            <label asp-for="Item2.Start" class="control-label"></label>
+            <input asp-for="Item2.Start" name="start" class="form-control" />
+            <span asp-validation-for="Item2.Start" class="text-danger"></span>
+        </div>
+         <div class="form-group">
+            <label asp-for="Item2.Finish" class="control-label"></label>
+            <input asp-for="Item2.Finish" name="finish" class="form-control" />
+            <span asp-validation-for="Item2.Finish" class="text-danger"></span>
         </div>
 
         <button type="submit" class="btn btn-primary">Zatwierdź</button>

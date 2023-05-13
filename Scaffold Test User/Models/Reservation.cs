@@ -10,9 +10,11 @@ namespace Scaffold_Test_User.Models
         public int VehicleId { get; set; }
         [DisplayName("Cena :")]
         public int Price { get; set; }
-        [DisplayName("Ilość dni :")]
-        public int NumberOfDays { get; set; }
-        //dac datetime start i koniec, stworzyc implementacje z lista rezerwacji i sortowaniem
+        [DisplayName("Dzień rozpoczęcia rezerwacji :")]
+        public DateTime Start { get; set; }
+        [DisplayName("Dzień zakończenia rezerwacji :")]
+        public DateTime Finish { get; set; }
+        
         public ApplicationUser User { get; set; }
         public Vehicle Vehicle { get; set; }    
 
