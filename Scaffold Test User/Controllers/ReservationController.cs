@@ -23,6 +23,7 @@ namespace Scaffold_Test_User.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(int vehicleId, DateTime start, DateTime finish)
         {
+
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             var reservation = new Reservation
             {

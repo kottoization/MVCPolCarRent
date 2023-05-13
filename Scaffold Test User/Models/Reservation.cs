@@ -1,5 +1,6 @@
 ﻿using Scaffold_Test_User.Areas.Identity.Data;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace Scaffold_Test_User.Models
 {
@@ -10,8 +11,10 @@ namespace Scaffold_Test_User.Models
         public int VehicleId { get; set; }
         [DisplayName("Cena :")]
         public int Price { get; set; }
+        [Required]
         [DisplayName("Dzień rozpoczęcia rezerwacji :")]
         public DateTime Start { get; set; }
+        [Required]
         [DisplayName("Dzień zakończenia rezerwacji :")]
         public DateTime Finish { get; set; }
         

@@ -19,23 +19,38 @@
 </div>
 
 <hr />
-
 <div>
     <form method="post" asp-controller="Reservation" asp-action="Create">
         <input type="hidden" name="vehicleId" value="@Model.Item1.Id" />
-        <div class="form-group">
+        <div class="form-group col-3">
             <label asp-for="Item2.Start" class="control-label"></label>
-            <input asp-for="Item2.Start" name="start" class="form-control" />
+            <input asp-for="Item2.Start" name="start" class="form-control" value="@DateTime.Today.ToString("yyyy-MM-dd")" type="date" data-date-format="yyyy-mm-dd" min="@DateTime.Today.ToString("yyyy-MM-dd")" />
             <span asp-validation-for="Item2.Start" class="text-danger"></span>
         </div>
-         <div class="form-group">
+         <div class="form-group col-3">
             <label asp-for="Item2.Finish" class="control-label"></label>
-            <input asp-for="Item2.Finish" name="finish" class="form-control" />
-            <span asp-validation-for="Item2.Finish" class="text-danger"></span>
+            <input asp-for="Item2.Finish" name="finish" class="form-control" value="@DateTime.Today.AddDays(1).ToString("yyyy-MM-dd")" type="date" data-date-format="yyyy-mm-dd" min="@DateTime.Today.AddDays(1).ToString("yyyy-MM-dd")" />
+            <span asp-validation-for="Item2.Finish" class="text-danger "></span>
         </div>
+
+        <div asp-validation-summary="All" class="text-danger"></div>
 
         <button type="submit" class="btn btn-primary">Zatwierdź</button>
         <a asp-action="Index" class="btn btn-secondary">Anuluj</a>
     </form>
 </div>
+
+@section Scripts {
+    <script type="text/javascript">        
+        $("form").submit(function () {
+            var startDate = new Date($("input[name='start']").val());
+            var endDate = new Date($("input[name='finish']").val());
+            if (startDate >= endDate) {
+                alert("Data rozpoczęcia musi być wcześniejsza niż data zakończenia!");
+                return false;
+            }
+            
+        });
+    </script>
+}
 
