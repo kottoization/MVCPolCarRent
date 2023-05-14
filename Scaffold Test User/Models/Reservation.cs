@@ -10,7 +10,7 @@ namespace Scaffold_Test_User.Models
         public string UserId { get; set; }
         public int VehicleId { get; set; }
         [DisplayName("Cena :")]
-        public int Price { get; set; }
+        public double Price { get; set; }
         [Required]
         [DisplayName("Dzień rozpoczęcia rezerwacji :")]
         public DateTime Start { get; set; }

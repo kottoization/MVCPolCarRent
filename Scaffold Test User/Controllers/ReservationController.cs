@@ -44,12 +44,16 @@ namespace Scaffold_Test_User.Controllers
                 return View("CreateReservation", Tuple.Create(vehicle, new Reservation()));
             }
 
+            double duration = (finish - start).TotalDays;
+            double totalPrice = vehicle.Price * duration;
+
             var reservation = new Reservation
             {
                 UserId = userId,
                 VehicleId = vehicleId,
                 Finish = finish,
                 Start = start,
+                Price = totalPrice
             };
 
             _context.Add(reservation);
