@@ -58,10 +58,12 @@ else
                                             <div class="card-body">
                                                 <h5 class="card-title">@vehicle.Name</h5>
                                                 <p class="card-text">Początek: @reservation.Start  Koniec: @reservation.Finish</p>
+                                                <p class="card-text">Naliczona znizka: @reservation.Discount %.</p>
                                                 <p class="card-text">@vehicle.Description</p>
-                                                <p class="card-text">Cena: @reservation.Price zł.    Użytkownik: @reservation.User.Email.ToString() | @reservation.User.FirstName.ToString() | @reservation.User.LastName.ToString() </p>
+                                                <p class="card-text">Cena: @reservation.Price zł.  </p>
+
                                                 <div class="d-flex justify-content-between align-items-center">
-                                                    <div class="btn-group">                                                        
+                                                    <div class="btn-group">
                                                         <form method="post" asp-action="Delete" asp-route-reservationId="@reservation.Id">
                                                             <button type="submit" class="btn btn-sm btn-outline-danger">Anuluj rezerwację</button>
                                                         </form>
@@ -110,12 +112,13 @@ else
                                         <div class="col-md-8">
                                             <div class="card-body">
                                                 <h5 class="card-title">@vehicle.Name</h5>
-                                                 <p class="card-text">Początek: @reservation.Start  Koniec: @reservation.Finish</p>
+                                                <p class="card-text">Początek: @reservation.Start  Koniec: @reservation.Finish</p>
+                                                <p class="card-text">Naliczona znizka: @reservation.Discount %.</p>
                                                 <p class="card-text">@vehicle.Description</p>
                                                 <p class="card-text">Cena: @vehicle.Price zł.</p>
                                                 <div class="d-flex justify-content-between align-items-center">
                                                     <div class="btn-group gap-3">
-                                                        Użytkownik:    @reservation.UserId.ToString() 
+                                                        Użytkownik:    @reservation.UserId.ToString()
                                                         <form method="post" asp-action="Delete" asp-route-reservationId="@reservation.Id">
                                                             <button type="submit" class="btn btn-sm btn-outline-danger">Anuluj rezerwację</button>
                                                         </form>
@@ -126,7 +129,7 @@ else
                                     </div>
                                 </div>
                             </div>
-                        }                        
+                        }
                     }
                 </ul>
 

@@ -19,7 +19,9 @@ namespace Scaffold_Test_User.Models
         public DateTime Finish { get; set; }
         
         public ApplicationUser User { get; set; }
-        public Vehicle Vehicle { get; set; }    
-
+        public Vehicle Vehicle { get; set; }  
+        
+        public int Discount { get; set; }
+        
     }
 }

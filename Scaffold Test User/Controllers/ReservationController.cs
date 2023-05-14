@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Scaffold_Test_User.Areas.Identity.Data;
+using Scaffold_Test_User.Discounts;
 using Scaffold_Test_User.Models;
 using System.Security.Claims;
 
@@ -24,13 +25,13 @@ namespace Scaffold_Test_User.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(int vehicleId, DateTime start, DateTime finish)
         {
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);            
             var vehicle = await _context.Vehicles.FindAsync(vehicleId);
             var conflictingReservations = await _context.Reservations
             .Where(r => r.VehicleId == vehicleId &&
             ((start >= r.Start && start <= r.Finish) || (start < r.Start && finish > r.Finish) || (finish >= r.Start && finish <= r.Finish)))
             .ToListAsync();
-            //((start >= r.Start && start <= r.Finish) || (start < r.Start && finish > r.Finish) || (finish >= r.Start && finish <= r.Finish)))
+            
             if (conflictingReservations.Any())
             {
                 var errorMessage = "Pojazd jest zajęty w podanym terminie przez następujące rezerwacje: ";
@@ -47,23 +48,46 @@ namespace Scaffold_Test_User.Controllers
             double duration = (finish - start).TotalDays;
             double totalPrice = vehicle.Price * duration;
 
+
+            var discountFactory = new ReservationDiscountFactory();
+            var discount = discountFactory.CreateDiscount(await _context.Users.FindAsync(userId));
+            totalPrice = discount.ApplyDiscount(totalPrice);    
+            int discountPercent = 0;
+            switch (discount)
+            {                
+                case PremiumDiscount pd:
+                    discountPercent = 10;
+                    break;
+                case VipDiscount vd:
+                    discountPercent = 20;
+                    break;
+                default:                    
+                    break;
+            }
+
             var reservation = new Reservation
             {
                 UserId = userId,
                 VehicleId = vehicleId,
                 Finish = finish,
                 Start = start,
-                Price = totalPrice
+                Price = totalPrice,
+                Discount = discountPercent
             };
+
+            var user = await _context.Users.FindAsync(userId);           
 
             _context.Add(reservation);
             await _context.SaveChangesAsync();
 
+            user.reservationCount++;
+            _context.Update(user);
+            await _context.SaveChangesAsync();
+
 
             //vehicle.Taken = true;
-
-            _context.Update(vehicle);
-            await _context.SaveChangesAsync();
+            //_context.Update(vehicle);
+            //await _context.SaveChangesAsync();
 
             return RedirectToAction(nameof(Index), "Home");
 
@@ -71,7 +95,7 @@ namespace Scaffold_Test_User.Controllers
 
 
         public async Task<IActionResult> CreateReservation(int? vehicleId)
-        {
+        {          
             var vehicle = await _context.Vehicles.FindAsync(vehicleId);
             if (vehicleId == null || vehicle == null)
             {
