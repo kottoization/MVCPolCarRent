@@ -124,7 +124,7 @@ namespace Scaffold_Test_User.Controllers
                 await _context.SaveChangesAsync();
             }
 
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(Index));   
         }
     }
 
